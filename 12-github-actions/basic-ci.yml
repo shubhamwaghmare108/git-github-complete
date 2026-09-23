@@ -1,0 +1,21 @@
+# Example GitHub Actions workflow
+name: Basic CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  markdown-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Markdown files exist
+        shell: bash
+        run: |
+          test -f README.md
+          find . -name '*.md' -print | grep -q .
+          echo 'Markdown documentation found.'

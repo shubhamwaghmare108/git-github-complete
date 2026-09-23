@@ -1,0 +1,27 @@
+name: Documentation CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify course structure
+        shell: bash
+        run: |
+          set -e
+          test -f README.md
+          test -f ROADMAP.md
+          test -f CONTRIBUTING.md
+          test -f SECURITY.md
+          test -d labs/100-labs
+          test "$(find labs/100-labs -name '*.md' | wc -l)" -ge 12
+          echo "Course documentation structure is valid."
